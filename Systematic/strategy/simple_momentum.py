@@ -3,13 +3,15 @@
 import pandas as pd
 import numpy as np
 
-def simple_momentum_1(df, CAPITAL, WINDOW):
+def simple_momentum_vix(df, CAPITAL, WINDOW):
     """
     input: 
         data: a dict of dataframes.
             Example:
                 data = DataFrame(open, close, high, low, volume)
                 All DataFrames are: (Time_Open(index), markets...) 
+        CAPITAL: maximum amount of capital to deploy
+        WINDOW: window used in determining momentum
     output:
         desired_positions = { date: DateTime, DateFrame}
         desired_position = desired_position_normalized * capital
@@ -17,11 +19,11 @@ def simple_momentum_1(df, CAPITAL, WINDOW):
     """
 
     cap = CAPITAL / 4
-    
+
     # Get trades
     df['R'] = df['Close'].pct_change()
     R = df['R']
-    signal = np.sign(R.rolling(10, min_periods=10).mean())
+    signal = np.sign(R.rolling(WINDOW).mean())
     final_positions_usd = CAPITAL/10 * signal
     final_positions_usd = final_positions_usd.fillna(0)
 
@@ -30,7 +32,7 @@ def simple_momentum_1(df, CAPITAL, WINDOW):
     pos = np.zeros(len(final_positions_usd))
 
     for i, trade in enumerate(final_positions_usd): 
-        if abs(total_pos + trade) <= cap: 
+        if (abs(total_pos + trade) <= cap) and ((total_pos + trade) >= 0) : 
             total_pos += trade
         else: 
             None
