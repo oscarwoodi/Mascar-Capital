@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
-def simple_momentum(df, CAPITAL):
+def simple_momentum_1(df, CAPITAL, WINDOW):
     """
     input: 
         data: a dict of dataframes.
@@ -16,9 +16,27 @@ def simple_momentum(df, CAPITAL):
 
     """
 
+    cap = CAPITAL / 4
+    
+    # Get trades
     df['R'] = df['Close'].pct_change()
     R = df['R']
     signal = np.sign(R.rolling(10, min_periods=10).mean())
-    final_positions_usd = CAPITAL * signal
+    final_positions_usd = CAPITAL/10 * signal
+    final_positions_usd = final_positions_usd.fillna(0)
+
+    # Pre allocate
+    total_pos = 0
+    pos = np.zeros(len(final_positions_usd))
+
+    for i, trade in enumerate(final_positions_usd): 
+        if abs(total_pos + trade) <= cap: 
+            total_pos += trade
+        else: 
+            None
+        pos[i] = total_pos
+
+    final_positions_usd.loc[:] = pos
+    
     return final_positions_usd
 
