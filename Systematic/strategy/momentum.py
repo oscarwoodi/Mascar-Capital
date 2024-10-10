@@ -44,3 +44,21 @@ def simple_momentum_vix(df, CAPITAL, LAYERS, WINDOW):
     
     return final_positions_usd
 
+
+def bollinger_band_vix(df, CAPITAL, LAYERS, WINDOW):
+    """
+    input: 
+        data: a dict of dataframes.
+            Example:
+                data = DataFrame(open, close, high, low, volume)
+                All DataFrames are: (Time_Open(index), markets...) 
+        CAPITAL: maximum amount of capital to deploy
+        WINDOW: window used in determining momentum
+        LAYERS: number of equal sized trades to make before reaching capital limit
+    output:
+        desired_positions = { date: DateTime, DateFrame}
+        desired_position = desired_position_normalized * capital
+
+    """
+    
+    return final_positions_usd

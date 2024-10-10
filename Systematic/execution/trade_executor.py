@@ -51,15 +51,15 @@ class TradeExecutor:
     def select_investment(self):
         print("Selecting investment...")
         try:
-            self.driver.find_element(By.XPATH, f"//div[contains(span/text(), '{''.join(self.asset_path).split('/')[0]}')]").click()
+            self.driver.find_element(By.XPATH, f"//div[contains(span/text(), '{self.asset_path.split('/')[0]}')]").click()
 
             if len(self.asset_path.split('/')) == 3: 
-                tab = self.driver.find_element(By.XPATH, f"//div[@role='tab' and text()='{''.join(self.asset_path).split('/')[1]}']")
+                tab = self.driver.find_element(By.XPATH, f"//div[@role='tab' and text()='{self.asset_path.split('/')[1]}']")
                 tab.click()
                 time.sleep(2)
 
             elif len(self.asset_path.split('/')) == 2: 
-                trade_button = self.driver.find_element(By.XPATH, f"//div[@role='tab' and text()='{''.join(self.asset_path).split('/')[1]}']//following-sibling::div[contains(@class, 'ant-collapse-item')]//button[contains(text(), 'Trade')]")
+                trade_button = self.driver.find_element(By.XPATH, f"//div[@role='tab' and text()='{self.asset_path.split('/')[1]}']//following-sibling::div[contains(@class, 'ant-collapse-item')]//button[contains(text(), 'Trade')]")
                 trade_button.click()
                 time.sleep(2)
 
